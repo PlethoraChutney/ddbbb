@@ -11,6 +11,32 @@
     ></iframe>
   </div>
 
+  <div id="rules-holder" class="holder">
+    <h2>Rules</h2>
+    <p>There are always a few rules!</p>
+    <h3>You must:</h3>
+    <ul>
+      <li>Have fun</li>
+      <li>Be nice</li>
+      <li>Invite anyone you think would enjoy this and get along</li>
+    </ul>
+    <hr>
+    <h3>You are encouraged to:</h3>
+    <ul>
+      <li>Ride a bike or scooter or other person-powered vehicle</li>
+      <li>Come to as many or few bars as you like (do not feel obligated to come to all of them!)</li>
+      <li>Drink whatever you want, alcohol or no</li>
+    </ul>
+    <hr>
+    <h3>You may <em>not</em>:</h3>
+    <ul>
+      <li>
+        Drink and drive. If you're planning on having more than one (1) beer,
+        do not drive. I don't care what you think your tolerance is.
+      </li>
+    </ul>
+  </div>
+
   <div id="comments-holder" class="holder">
     <h2>Discussion</h2>
     <CommentBox
@@ -26,33 +52,38 @@
 <script>
 import CommentBox from "./components/CommentBox.vue";
 
+function sendRequest(body, dest = '/api') {
+    return fetch(dest, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(body)
+    })
+}
+
 export default {
   name: 'App',
   components: {CommentBox},
   data() {
     return {
-      comments: [
-        {
-          'author': 'Rich',
-          'content': ['Hi everyone. Time for another year of riding around to celebrate my birth.']
-        },
-        {
-          'author': 'Rich',
-          'content': ['As always, there are a few rules.']
-        },
-        {
-          'author': 'Rich',
-          'content': ['You must:', 'Have fun.', 'Be nice', 'Invite anyone you think would enjoy this, and that I \'d like.']
-        },
-        {
-          'author': 'Rich',
-          'content': ['You are encouraged to:', 'Ride a bike or scooter or other person-powered vehicle (if you wanna bus or lyft or w/e go for it)', 'Come to as many or few bars as you like (don\'t feel obligated to be there all day! It\'s...a lot)', 'Drink whatever you want. It doesn\'t have to be alcohol!']
-        },
-        {
-          'author': 'Rich',
-          'content': ['You may NOT:', 'Drink and drive. If you\'re planning on having more than one beer don\'t drive!!! I don\'t care what your tolerance is!']
-        }
-      ]
+      comments: []
+    }
+  },
+  created() {
+    this.getComments();
+  },
+  methods: {
+    getComments() {
+      sendRequest({'action': 'get_comments'})
+        .then(request => request.json()).then(data => {
+          this.comments = data;
+        })
     }
   }
 }
@@ -135,6 +166,19 @@ iframe {
   width: 100%;
   max-width: 1000px;
   margin: auto;
+}
+
+#rules-holder ul{
+  text-align: left;
+  margin-top: 1rem;
+}
+
+#rules-holder h3 {
+  margin: 0;
+}
+
+#rules-holder hr {
+  width: 90%;
 }
 
 </style>
