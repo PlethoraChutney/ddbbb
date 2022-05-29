@@ -1,13 +1,49 @@
 from flask import Flask, render_template, request
+import datetime
+import pytz
 import os
 import sys
 import json
+import couchdb
+
+pacific = pytz.timezone('US/Pacific')
+
+class Database:
+    def __init__(self) -> None:
+        host = os.environ['COUCHDB_HOST']
+        username = os.environ['COUCHDB_USERNAME']
+        password = os.environ['COUCHDB_PASSWORD']
+        self.server = couchdb.Server(f'http://{username}:{password}@{host}:5984')
+
+        if 'ddbbb_comments' in self.server:
+            self.comments_db = self.server['ddbbb_comments']
+        else:
+            self.comments_db = self.server.create('ddbbb_comments')
+
+    @property
+    def comments(self) -> list:
+        comment_list = self.comments_db.get('comments')
+
+        if comment_list is not None:
+            return comment_list['comments']
+        else:
+            return []
+
+    def new_comment(self, comment : dict) -> None:
+        comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d/, %H:%M:%S")
+
+        
+        comment_list = self.comments_db['comments']
+        comment_list['comments'].append(comment)
+        self.comments_db['comments'] = comment_list
 
 app = Flask(
     __name__,
     static_folder = os.path.join('dist', 'static'),
     template_folder = 'dist'
 )
+
+comment_db = Database()
 
 try:
     app.secret_key = os.environ['SECRET_KEY']
@@ -19,29 +55,6 @@ except KeyError:
         app.logger.error('Must include secret key for production mode')
         sys.exit(1)
 
-comments = [
-    {
-        'author': 'Rich',
-        'content': ['Hi everyone. Time for another year of riding around to celebrate my birth.']
-    },
-    {
-        'author': 'Rich',
-        'content': ['As always, there are a few rules.']
-    },
-    {
-        'author': 'Rich',
-        'content': ['You must:', 'Have fun.', 'Be nice', 'Invite anyone you think would enjoy this, and that I \'d like.']
-    },
-    {
-        'author': 'Rich',
-        'content': ['You are encouraged to:', 'Ride a bike or scooter or other person-powered vehicle (if you wanna bus or lyft or w/e go for it)', 'Come to as many or few bars as you like (don\'t feel obligated to be there all day! It\'s...a lot)', 'Drink whatever you want. It doesn\'t have to be alcohol!']
-    },
-    {
-        'author': 'Rich',
-        'content': ['You may NOT:', 'Drink and drive. If you\'re planning on having more than one beer don\'t drive!!! I don\'t care what your tolerance is!']
-    }
-]
-
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('index.html')
@@ -50,4 +63,8 @@ def index():
 def api():
     rj = request.get_json()
     if rj['action'] == 'get_comments':
-        return json.dumps(comments), 200, {'ContentType': 'application/json'}
+        return json.dumps(comment_db.comments), 200, {'ContentType': 'application/json'}
+
+    elif rj['action'] == 'new_comment':
+        comment_db.new_comment(rj['comment'])
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}

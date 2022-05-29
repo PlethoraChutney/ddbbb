@@ -39,11 +39,17 @@
 
   <div id="comments-holder" class="holder">
     <h2>Discussion</h2>
+    <NewComment
+      @post-new-comment="this.comments.push($event)"
+    ></NewComment>
     <CommentBox
-      v-for="(comment, index) in comments"
+      v-for="(comment, index) in comments.reverse()"
       :key="index"
       :comment="comment"
     ></CommentBox>
+    <p v-if="comments.length === 0">
+      Looks like there aren't any comments yet.
+    </p>
   </div>
 
 
@@ -51,8 +57,9 @@
 
 <script>
 import CommentBox from "./components/CommentBox.vue";
+import NewComment from './components/NewComment.vue';
 
-function sendRequest(body, dest = '/api') {
+export function sendRequest(body, dest = '/api') {
     return fetch(dest, {
         method: 'POST',
         mode: 'cors',
@@ -69,7 +76,7 @@ function sendRequest(body, dest = '/api') {
 
 export default {
   name: 'App',
-  components: {CommentBox},
+  components: {CommentBox, NewComment},
   data() {
     return {
       comments: []
@@ -179,6 +186,16 @@ iframe {
 
 #rules-holder hr {
   width: 90%;
+}
+
+div.button {
+  border: 1px solid black;
+  border-radius: 5px;
+  user-select: none;
+  cursor: pointer;
+  width: max-content;
+  padding: 0 2rem;
+  margin: 10px auto;
 }
 
 </style>
