@@ -198,6 +198,12 @@ div.button {
   margin: 10px auto;
 }
 
+div.button.grey-out {
+  cursor: default;
+  border: 1px solid #CCCCCC;
+  color: #CCCCCC;
+}
+
 @media screen and (max-width: 800px) {
   h1 {
   font-size: 4rem;

@@ -14,6 +14,7 @@
     ></textarea>
 </div>
 <div class="button"
+:class="{'grey-out': commentText.length === 0 || commenterName.length === 0}"
 @click="sendComment()"
 >
     Post
@@ -27,8 +28,8 @@ export default {
     'name': 'NewComment',
     data() {
         return {
-            commenterName: null,
-            commentText: null
+            commenterName: '',
+            commentText: ''
         }
     },
     methods: {
@@ -38,7 +39,7 @@ export default {
                 'content': this.commentText.split('\n\n')
             }
 
-            if (comment.content.length !== 0) {
+            if (comment.content.length > 0 && comment.author.length > 0) {
                 sendRequest({
                     'action': 'new_comment',
                     'comment': comment
