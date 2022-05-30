@@ -1,5 +1,5 @@
 <template>
-    <div class="comment">
+    <div class="comment" :class="{'collapsed': isCollapsed}">
         <div class="author">
             <h4>{{this.comment.author}}</h4>
         </div>
@@ -17,6 +17,11 @@ export default {
     'name': 'CommentBox',
     props: {
         'comment': Object
+    },
+    data() {
+        return {
+            isCollapsed: false
+        }
     }
 }
 </script>

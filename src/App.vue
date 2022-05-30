@@ -39,10 +39,10 @@
   <div id="comments-holder" class="holder">
     <h2>Discussion</h2>
     <NewComment
-      @post-new-comment="this.comments.push($event)"
+      @post-new-comment="this.comments.unshift($event)"
     ></NewComment>
     <CommentBox
-      v-for="(comment, index) in comments.reverse()"
+      v-for="(comment, index) in comments"
       :key="index"
       :comment="comment"
     ></CommentBox>
@@ -88,7 +88,7 @@ export default {
     getComments() {
       sendRequest({'action': 'get_comments'})
         .then(request => request.json()).then(data => {
-          this.comments = data;
+          this.comments = data.reverse();
         })
     }
   }
