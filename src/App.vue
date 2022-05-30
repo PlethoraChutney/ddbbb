@@ -1,6 +1,6 @@
 <template>
   <div id="page-header">
-    <h1>DDBBB VI</h1>
+    <h1 class="mondo">DDBBB VI</h1>
     <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Seven</p>
   </div>
 
@@ -12,8 +12,7 @@
   </div>
 
   <div id="rules-holder" class="holder">
-    <h2>Rules</h2>
-    <p>There are always a few rules!</p>
+    <h2 class="mondo">Rules</h2>
     <h3>You must:</h3>
     <ul>
       <li>Have fun</li>
@@ -135,12 +134,27 @@ export default {
   padding: 0;
   margin: 0;
   font-size: 18pt;
+  display: grid;
+  grid-template-areas: "header header" "map rules" "comments comments";
+  grid-template-rows: max-content max-content max-content;
+  grid-template-columns: 1fr 1fr;
 }
 
-#page-header > h1 {
-  font-size: 120pt;
+#page-header {
+  grid-area: header;
+}
+
+.mondo {
   margin: 0;
   padding: 0;
+}
+
+h1.mondo {
+  font-size: 120pt;
+}
+
+h2.mondo {
+  font-size: 100pt;
 }
 
 h1, h2, h3, h4 {
@@ -167,6 +181,7 @@ iframe {
 
 #map-holder {
   overflow: hidden;
+  grid-area: map;
 }
 
 .holder {
@@ -178,6 +193,7 @@ iframe {
 #rules-holder ul{
   text-align: left;
   margin-top: 1rem;
+  grid-area: rules;
 }
 
 #rules-holder h3 {
@@ -186,6 +202,10 @@ iframe {
 
 #rules-holder hr {
   width: 90%;
+}
+
+#comments-holder {
+  grid-area: comments;
 }
 
 div.button {
@@ -204,7 +224,12 @@ div.button.grey-out {
   color: #CCCCCC;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
+
+  #app {
+    display: block;
+  }
+
   h1 {
   font-size: 4rem;
   }
@@ -217,8 +242,12 @@ div.button.grey-out {
     font-size: 2rem;
   }
 
-  #page-header > h1 {
+  h1.mondo {
     font-size: 5rem;
+  }
+
+  h2.mondo {
+    font-size: 4rem;
   }
 
   .comment h4 {
