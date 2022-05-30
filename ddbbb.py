@@ -37,6 +37,11 @@ class Database:
         comment_list['comments'].append(comment)
         self.comments_db['comments'] = comment_list
 
+    def delete_comment(self, comment: dict) -> None:
+        comment_list = self.comments_db['comments']
+        comment_list['comments'].remove(comment)
+        self.comments_db['comments'] = comment_list
+
 app = Flask(
     __name__,
     static_folder = os.path.join('dist', 'static'),
@@ -67,4 +72,8 @@ def api():
 
     elif rj['action'] == 'new_comment':
         comment_db.new_comment(rj['comment'])
+        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+    elif rj['action'] == 'delete_comment':
+        comment_db.delete_comment(rj['comment'])
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}

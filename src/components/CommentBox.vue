@@ -1,5 +1,9 @@
 <template>
-    <div class="comment" :class="{'collapsed': isCollapsed}">
+    <div
+    class="comment"
+    :class="{'collapsed': isCollapsed}"
+    @click="tryDelete()"
+    >
         <div class="author">
             <h4>{{this.comment.author}}</h4>
         </div>
@@ -16,13 +20,22 @@
 export default {
     'name': 'CommentBox',
     props: {
-        'comment': Object
+        'comment': Object,
+        'isAdmin': Boolean
     },
     data() {
         return {
             isCollapsed: false
         }
-    }
+    },
+    methods: {
+        tryDelete() {
+            if (this.isAdmin) {
+                this.$emit('delete-comment', this.comment)
+            }
+        }
+    },
+    emits: ['delete-comment']
 }
 </script>
 

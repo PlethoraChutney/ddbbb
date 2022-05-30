@@ -39,7 +39,7 @@ export default {
                 'content': this.commentText.split('\n\n')
             }
 
-            if (comment.content.length > 0 && comment.author.length > 0) {
+            if (this.commentText.length > 0 && comment.author.length > 0) {
                 sendRequest({
                     'action': 'new_comment',
                     'comment': comment
@@ -50,8 +50,16 @@ export default {
             }
         }
     },
+    watch: {
+        commenterName(value) {
+            if (value === 'ddbbbAdmin') {
+                this.$emit('isAdmin');
+            }
+        }
+    },
     emits: [
-        'postNewComment'
+        'postNewComment',
+        'isAdmin'
     ]
 }
 </script>

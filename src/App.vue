@@ -40,11 +40,14 @@
     <h2>Discussion</h2>
     <NewComment
       @post-new-comment="this.comments.unshift($event)"
+      @is-admin="this.isAdmin = true"
     ></NewComment>
     <CommentBox
       v-for="(comment, index) in comments"
       :key="index"
       :comment="comment"
+      :is-admin="isAdmin"
+      @delete-comment="deleteComment($event)"
     ></CommentBox>
     <p v-if="comments.length === 0">
       Looks like there aren't any comments yet.
@@ -78,7 +81,8 @@ export default {
   components: {CommentBox, NewComment},
   data() {
     return {
-      comments: []
+      comments: [],
+      isAdmin: false
     }
   },
   created() {
@@ -90,6 +94,10 @@ export default {
         .then(request => request.json()).then(data => {
           this.comments = data.reverse();
         })
+    },
+    deleteComment(comment) {
+      this.comments.splice(this.comments.indexOf(comment), 1);
+      sendRequest({'action': 'delete_comment', 'comment': comment});
     }
   }
 }
