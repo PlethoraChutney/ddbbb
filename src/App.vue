@@ -198,4 +198,30 @@ div.button {
   margin: 10px auto;
 }
 
+@media screen and (max-width: 800px) {
+  h1 {
+  font-size: 4rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  #page-header > h1 {
+    font-size: 5rem;
+  }
+
+  .comment h4 {
+    font-size: 12pt;
+  }
+
+  .comment p {
+    font-size: 12pt;
+  }
+}
+
 </style>
