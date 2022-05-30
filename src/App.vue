@@ -170,7 +170,7 @@ iframe {
 }
 
 .holder {
-  width: 100%;
+  width: 90%;
   max-width: 1000px;
   margin: auto;
 }

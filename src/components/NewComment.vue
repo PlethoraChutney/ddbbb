@@ -8,7 +8,7 @@
     >
     <textarea
         cols="30"
-        rows="10"
+        rows="2"
         placeholder="Comment"
         v-model="commentText"
     ></textarea>
@@ -74,7 +74,8 @@ export default {
 #input-zone textarea {
     width: 60%;
     padding: 1rem;
-    font-family: unset
+    font-family: unset;
+    resize: none;
 }
 
 </style>
