@@ -31,7 +31,7 @@ class Database:
             return []
 
     def new_comment(self, comment : dict) -> None:
-        comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d/, %H:%M:%S")
+        comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d, %H:%M:%S:%f")
 
         
         comment_list = self.comments_db['comments']
@@ -40,6 +40,7 @@ class Database:
 
     def delete_comment(self, comment: dict) -> None:
         comment_list = self.comments_db['comments']
+        print(comment_list['comments'])
         comment_list['comments'].remove(comment)
         self.comments_db['comments'] = comment_list
 
@@ -89,6 +90,13 @@ def connect():
 def new_comment(json):
     comment_db.new_comment(json)
     emit('new_comment', json, broadcast = True)
+
+@socketio.on('deleteComment')
+def delete_comment(json):
+    print('Deleting comment\n\n')
+    print(json)
+    comment_db.delete_comment(json)
+    emit('delete_comment', json, broadcast = True)
 
 if __name__ == '__main__':
     socketio.run(app)

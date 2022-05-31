@@ -101,6 +101,16 @@ export default {
     this.socket.on('new_comment', function(data) {
       vm.comments.unshift(data);
     })
+    this.socket.on('delete_comment', function(data) {
+      vm.removeComment(data);
+    })
+  },
+  computed: {
+    commentTS() {
+      let toReturn = [];
+      this.comments.forEach(e => toReturn.push(e.timestamp));
+      return toReturn;
+    }
   },
   methods: {
     getComments() {
@@ -113,8 +123,12 @@ export default {
       this.socket.emit('newComment', comment);
     },
     deleteComment(comment) {
-      this.comments.splice(this.comments.indexOf(comment), 1);
-      sendRequest({'action': 'delete_comment', 'comment': comment});
+      console.log(comment);
+      this.socket.emit('deleteComment', comment);
+    },
+    removeComment(comment) {
+      let indexToRemove = this.commentTS.indexOf(comment.timestamp);
+      this.comments.splice(indexToRemove, 1);
     }
   }
 }
