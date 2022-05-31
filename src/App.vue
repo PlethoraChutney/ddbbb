@@ -2,6 +2,8 @@
   <div id="page-header">
     <h1 class="mondo">DDBBB VI</h1>
     <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Seven</p>
+    <h2>July 2<sup>nd</sup> 2022</h2>
+    <h2>Start at noon</h2>
   </div>
 
   <div id="map-holder" class="holder">
@@ -39,7 +41,7 @@
   <div id="comments-holder" class="holder">
     <h2>Discussion</h2>
     <NewComment
-      @post-new-comment="this.comments.unshift($event)"
+      @post-new-comment="newComment($event)"
       @is-admin="this.isAdmin = true"
     ></NewComment>
     <CommentBox
@@ -94,6 +96,9 @@ export default {
         .then(request => request.json()).then(data => {
           this.comments = data.reverse();
         })
+    },
+    newComment(comment) {
+      this.comments.unshift(comment);
     },
     deleteComment(comment) {
       this.comments.splice(this.comments.indexOf(comment), 1);
@@ -150,6 +155,10 @@ export default {
 
 #page-header {
   grid-area: header;
+}
+
+#page-header h2 {
+  margin: 0;
 }
 
 .mondo {
