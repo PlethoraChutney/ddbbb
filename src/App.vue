@@ -167,7 +167,8 @@ export default {
 }
 
 h1.mondo {
-  font-size: 120pt;
+  font-size: 160pt;
+  line-height: 100%;
 }
 
 h2.mondo {
