@@ -63,6 +63,8 @@
 import CommentBox from "./components/CommentBox.vue";
 import NewComment from './components/NewComment.vue';
 
+import io from 'socket.io-client'
+
 export function sendRequest(body, dest = '/api') {
     return fetch(dest, {
         method: 'POST',
@@ -84,11 +86,21 @@ export default {
   data() {
     return {
       comments: [],
-      isAdmin: false
+      isAdmin: false,
+      socket: io('/')
     }
   },
   created() {
     this.getComments();
+
+    this.socket.on('write_to_log', msg => {
+      console.log(msg.data);
+    });
+
+    const vm = this;
+    this.socket.on('new_comment', function(data) {
+      vm.comments.unshift(data);
+    })
   },
   methods: {
     getComments() {
@@ -98,7 +110,7 @@ export default {
         })
     },
     newComment(comment) {
-      this.comments.unshift(comment);
+      this.socket.emit('newComment', comment);
     },
     deleteComment(comment) {
       this.comments.splice(this.comments.indexOf(comment), 1);

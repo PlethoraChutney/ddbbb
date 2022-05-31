@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_socketio import SocketIO, emit, join_room
 import datetime
 import pytz
 import os
@@ -60,6 +61,8 @@ except KeyError:
         app.logger.error('Must include secret key for production mode')
         sys.exit(1)
 
+socketio = SocketIO(app)
+
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('index.html')
@@ -77,3 +80,15 @@ def api():
     elif rj['action'] == 'delete_comment':
         comment_db.delete_comment(rj['comment'])
         return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+@socketio.on('connect')
+def connect():
+    emit('write_to_log', {'data': 'New user connected!'})
+
+@socketio.on('newComment')
+def new_comment(json):
+    comment_db.new_comment(json)
+    emit('new_comment', json, broadcast = True)
+
+if __name__ == '__main__':
+    socketio.run(app)

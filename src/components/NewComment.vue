@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { sendRequest } from "@/App.vue";
 
 export default {
     'name': 'NewComment',
@@ -40,11 +39,6 @@ export default {
             }
 
             if (this.commentText.length > 0 && comment.author.length > 0) {
-                sendRequest({
-                    'action': 'new_comment',
-                    'comment': comment
-                });
-
                 this.$emit('postNewComment', comment);
                 this.commentText = '';
             }
