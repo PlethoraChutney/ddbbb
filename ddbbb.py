@@ -40,7 +40,6 @@ class Database:
 
     def delete_comment(self, comment: dict) -> None:
         comment_list = self.comments_db['comments']
-        print(comment_list['comments'])
         comment_list['comments'].remove(comment)
         self.comments_db['comments'] = comment_list
 
@@ -93,8 +92,6 @@ def new_comment(json):
 
 @socketio.on('deleteComment')
 def delete_comment(json):
-    print('Deleting comment\n\n')
-    print(json)
     comment_db.delete_comment(json)
     emit('delete_comment', json, broadcast = True)
 
