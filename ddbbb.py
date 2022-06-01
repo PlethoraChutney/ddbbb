@@ -28,6 +28,7 @@ class Database:
         if comment_list is not None:
             return comment_list['comments']
         else:
+            self.comments_db['comments'] = {'comments': []}
             return []
 
     def new_comment(self, comment : dict) -> None:
