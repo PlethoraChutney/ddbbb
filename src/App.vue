@@ -1,6 +1,6 @@
 <template>
   <div id="page-header">
-    <h1 class="mondo">DDBBB VI</h1>
+    <h1 class="mondo">DDBBB VII</h1>
     <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Seven</p>
     <h2>July 2<sup>nd</sup> 2022</h2>
     <h2>Start at noon</h2>
