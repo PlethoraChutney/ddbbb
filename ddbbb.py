@@ -96,4 +96,4 @@ def delete_comment(json):
     emit('delete_comment', json, broadcast = True)
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, port=44444)
