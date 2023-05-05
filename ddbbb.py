@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit, join_room
 import datetime
@@ -33,6 +34,7 @@ class Database:
 
     def new_comment(self, comment : dict) -> None:
         comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d, %H:%M:%S:%f")
+        comment['parsed_timestamp'] = datetime.datetime.now(tz = pacific).strftime('%b %-d at %-I:%M %p')
 
         
         comment_list = self.comments_db['comments']

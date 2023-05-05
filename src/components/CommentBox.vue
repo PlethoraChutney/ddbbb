@@ -6,6 +6,7 @@
     >
         <div class="author">
             <h4>{{this.comment.author}}</h4>
+            <p>{{ this.comment.parsed_timestamp }}</p>
         </div>
         <div class="content">
             <p
@@ -57,6 +58,13 @@ export default {
 
 .comment > .author {
     width: 20%;
+}
+
+.comment > .author > p {
+    font-size: 1rem;
+    opacity: 0.75;
+    padding: 0;
+    margin: 0;
 }
 
 .comment > .content {
