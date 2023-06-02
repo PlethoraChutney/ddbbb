@@ -1,19 +1,21 @@
 <template>
   <div id="page-header">
-    <h1 class="mondo">DDBBB VII</h1>
-    <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Seven</p>
-    <h2>July 2<sup>nd</sup> 2022</h2>
+    <h1 class="mondo">DDBBB VIII</h1>
+    <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Eight</p>
+    <h2>July 1<sup>st</sup> 2023</h2>
     <h2>Start at noon</h2>
   </div>
 
   <div id="map-holder" class="holder">
-    <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1mq2U0ZQVUbaGDvMJXL1dT2Ay1FZrVYY&ehbc=2E312F"
+    <iframe src="https://www.google.com/maps/d/edit?mid=114HEdL_AMAP_nVmxLutOJeHRCem5-vQ&usp=sharing"
       width="100%"
       height="820"
     ></iframe>
   </div>
 
   <div id="rules-holder" class="holder">
+    <p>Hey just so you know, I'm graduating on the 21st! If you're here, I'd love to see you there.</p>
+    <p>Another note, a bit of a break from tradition this year. We're not doing the Sudra. Los Pu&ntilde;ales rules and I think they'll be able to handle our huge group better!</p>
     <h2 class="mondo">Rules</h2>
     <h3>You must:</h3>
     <ul>
