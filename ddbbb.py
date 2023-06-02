@@ -9,6 +9,7 @@ import json
 import couchdb
 
 pacific = pytz.timezone('US/Pacific')
+ddbbb_year = '2023'
 
 class Database:
     def __init__(self) -> None:
@@ -27,9 +28,9 @@ class Database:
         comment_list = self.comments_db.get('comments')
 
         if comment_list is not None:
-            return comment_list['comments']
+            return comment_list['comments'].get(ddbbb_year, [])
         else:
-            self.comments_db['comments'] = {'comments': []}
+            self.comments_db['comments'] = {'comments': {ddbbb_year: []}}
             return []
 
     def new_comment(self, comment : dict) -> None:
@@ -38,12 +39,12 @@ class Database:
 
         
         comment_list = self.comments_db['comments']
-        comment_list['comments'].append(comment)
+        comment_list['comments'][ddbbb_year].append(comment)
         self.comments_db['comments'] = comment_list
 
     def delete_comment(self, comment: dict) -> None:
         comment_list = self.comments_db['comments']
-        comment_list['comments'].remove(comment)
+        comment_list['comments'][ddbbb_year].remove(comment)
         self.comments_db['comments'] = comment_list
 
 app = Flask(
