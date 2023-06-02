@@ -14,8 +14,6 @@
   </div>
 
   <div id="rules-holder" class="holder">
-    <p>Hey just so you know, I'm graduating on the 21st! If you're here, I'd love to see you there.</p>
-    <p>Another note, a bit of a break from tradition this year. We're not doing the Sudra. Los Pu&ntilde;ales rules and I think they'll be able to handle our huge group better!</p>
     <h2 class="mondo">Rules</h2>
     <h3>You must:</h3>
     <ul>
