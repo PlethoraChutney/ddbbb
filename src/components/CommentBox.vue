@@ -69,5 +69,6 @@ export default {
 
 .comment > .content {
     width: 70%;
+    white-space: pre-wrap;
 }
 </style>
