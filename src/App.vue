@@ -7,7 +7,7 @@
   </div>
 
   <div id="map-holder" class="holder">
-    <iframe src="https://www.google.com/maps/d/edit?mid=114HEdL_AMAP_nVmxLutOJeHRCem5-vQ&usp=sharing"
+    <iframe src="https://www.google.com/maps/d/embed?mid=114HEdL_AMAP_nVmxLutOJeHRCem5-vQ&ehbc=2E312F"
       width="100%"
       height="820"
     ></iframe>
