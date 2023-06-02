@@ -28,7 +28,7 @@ class Database:
         comment_list = self.comments_db.get('comments')
 
         if comment_list is not None:
-            return comment_list['comments'].get(ddbbb_year, [])
+            return comment_list.get(ddbbb_year, [])
         else:
             self.comments_db['comments'] = {'comments': {ddbbb_year: []}}
             return []
@@ -39,12 +39,12 @@ class Database:
 
         
         comment_list = self.comments_db['comments']
-        comment_list['comments'][ddbbb_year].append(comment)
+        comment_list[ddbbb_year].append(comment)
         self.comments_db['comments'] = comment_list
 
     def delete_comment(self, comment: dict) -> None:
         comment_list = self.comments_db['comments']
-        comment_list['comments'][ddbbb_year].remove(comment)
+        comment_list[ddbbb_year].remove(comment)
         self.comments_db['comments'] = comment_list
 
 app = Flask(
