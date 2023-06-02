@@ -222,7 +222,7 @@ h3 {
 
 iframe {
   border: none;
-  margin-top: -60px;
+  margin-top: -70px;
 }
 
 #map-holder {
