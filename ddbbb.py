@@ -9,7 +9,7 @@ import json
 import couchdb
 
 pacific = pytz.timezone('US/Pacific')
-ddbbb_year = '2023'
+ddbbb_year = os.environ['DDBBB_YEAR']
 
 class Database:
     def __init__(self) -> None:
@@ -25,13 +25,16 @@ class Database:
 
     @property
     def comments(self) -> list:
-        comment_list = self.comments_db.get('comments')
+        comment_list = self.comments_db['comments']
 
-        if comment_list is not None:
-            return comment_list.get(ddbbb_year, [])
-        else:
-            self.comments_db['comments'] = {'comments': {ddbbb_year: []}}
-            return []
+        if comment_list is None:
+            comment_list = {ddbbb_year: []}
+            self.comments_db['comments'] = comment_list
+        elif ddbbb_year not in comment_list:
+            comment_list[ddbbb_year] = []
+            self.comments_db['comments'] = comment_list
+
+        return comment_list[ddbbb_year]
 
     def new_comment(self, comment : dict) -> None:
         comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d, %H:%M:%S:%f")
