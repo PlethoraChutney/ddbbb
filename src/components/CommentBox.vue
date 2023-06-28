@@ -54,6 +54,7 @@ export default {
 .comment h4 {
     margin: 0;
     color: #AAAAAA;
+    overflow-wrap: break-word;
 }
 
 .comment > .author {
