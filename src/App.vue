@@ -293,14 +293,6 @@ div.button.grey-out {
   h2.mondo {
     font-size: 4rem;
   }
-
-  .comment h4 {
-    font-size: 12pt;
-  }
-
-  .comment p {
-    font-size: 12pt;
-  }
 }
 
 </style>

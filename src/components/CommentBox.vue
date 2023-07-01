@@ -8,6 +8,7 @@
             <h4>{{this.comment.author}}</h4>
             <p>{{ this.comment.parsed_timestamp }}</p>
         </div>
+        <hr>
         <div class="content">
             <p
             v-for="(para, index) in this.comment.content"
@@ -71,5 +72,46 @@ export default {
 .comment > .content {
     width: 70%;
     white-space: pre-wrap;
+}
+
+hr {
+    visibility: hidden;
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+
+    .comment {
+        flex-direction: column;
+    }
+
+    .comment .author {
+        width: max-content;
+        max-width: 100%;
+        margin-bottom: -0.5rem;
+    }
+
+    .author p {
+        color: #AAAAAA;
+    }
+
+    .comment h4 {
+    font-size: 12pt;
+    }
+
+    .comment p {
+    font-size: 12pt;
+    width: 100%;
+    }
+
+    hr {
+        visibility: unset;
+        display: unset;
+        border: none;
+        background-color: #AAAAAA;
+        height: 1px;
+        width: 90%;
+        margin-bottom: -0.5rem;
+    }
 }
 </style>
