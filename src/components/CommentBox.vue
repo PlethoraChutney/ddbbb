@@ -5,7 +5,7 @@
     @click="tryDelete()"
     >
         <div class="author">
-            <h4>{{this.comment.author}}</h4>
+            <h4>{{this.comment.author.replace('✅', 'FAKE').replace('ddbbbv', '✅')}}</h4>
             <p>{{ this.comment.parsed_timestamp }}</p>
         </div>
         <hr>
