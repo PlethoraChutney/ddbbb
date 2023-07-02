@@ -52,12 +52,10 @@
     <NewComment
       @post-new-comment="newComment($event)"
       @is-admin="this.isAdmin = true"
-      :year="year"
     ></NewComment>
     <CommentBox
       v-for="(comment, index) in comments"
       :key="index"
-      :year="year"
       :comment="comment"
       :is-admin="isAdmin"
       @delete-comment="deleteComment($event)"
@@ -168,9 +166,10 @@ export default {
       this.socket.emit('deleteComment', {"year": this.year, "comment": comment});
     },
     removeComment(comment) {
-      console.log(comment.timestamp);
       let indexToRemove = this.commentTS.indexOf(comment.timestamp);
-      this.comments.splice(indexToRemove, 1);
+      if (indexToRemove != -1) {
+        this.comments.splice(indexToRemove, 1);
+      }
     }
   }
 }

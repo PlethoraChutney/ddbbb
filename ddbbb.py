@@ -57,7 +57,7 @@ class Database:
         year = data['year']
 
         comment_list = self.comments_db['comments']
-        comment_list[year].remove(comment['comment'])
+        comment_list[year].remove(comment)
         self.comments_db['comments'] = comment_list
 
     @property

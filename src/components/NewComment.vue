@@ -31,9 +31,6 @@ export default {
             commentText: ''
         }
     },
-    props: {
-        'year': String
-    },
     methods: {
         sendComment() {
             let comment = {

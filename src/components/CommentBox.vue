@@ -22,7 +22,6 @@
 export default {
     'name': 'CommentBox',
     props: {
-        'year': String,
         'comment': Object,
         'isAdmin': Boolean
     },
@@ -34,7 +33,7 @@ export default {
     methods: {
         tryDelete() {
             if (this.isAdmin) {
-                this.$emit('delete-comment', {"year": this.year, "comment": this.comment})
+                this.$emit('delete-comment', this.comment)
             }
         }
     },
