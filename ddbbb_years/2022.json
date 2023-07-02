@@ -1,9 +1,10 @@
 {
-    "year": 2022,
+    "year": "2022",
     "header_info": {
         "roman_numeral": "VII",
         "arabic_numeral": "Seven",
-        "date": "July 2<sup>nd</sup> 2022",
+        "date": "July 2",
+        "cardinal": "nd",
         "time": "noon"
     },
     "rules": {

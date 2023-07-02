@@ -35,20 +35,29 @@ class Database:
             comment_list[ddbbb_year] = []
             self.comments_db['comments'] = comment_list
 
-        return comment_list[ddbbb_year]
+        return comment_list
+    
+    def get_comments(self, year) -> list:
+        return self.comments[year]
+    
 
-    def new_comment(self, comment : dict) -> None:
+    def new_comment(self, data : dict) -> None:
+        comment = data['comment']
+        year = data['year']
+
         comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d, %H:%M:%S:%f")
         comment['parsed_timestamp'] = datetime.datetime.now(tz = pacific).strftime('%b %-d at %-I:%M %p')
-
         
         comment_list = self.comments_db['comments']
-        comment_list[ddbbb_year].append(comment)
+        comment_list[year].append(comment)
         self.comments_db['comments'] = comment_list
 
-    def delete_comment(self, comment: dict) -> None:
+    def delete_comment(self, data: dict) -> None:
+        comment = data['comment']
+        year = data['year']
+
         comment_list = self.comments_db['comments']
-        comment_list[ddbbb_year].remove(comment)
+        comment_list[year].remove(comment['comment'])
         self.comments_db['comments'] = comment_list
 
     @property
@@ -92,10 +101,14 @@ def api():
     rj = request.get_json()
     if rj['action'] == 'get_year_info':
         with open(os.path.join('ddbbb_years', f"{rj['year']}.json")) as f:
-            year_info = json.dumps(json.load(f))
+            year_info = json.load(f)
         return json.dumps(year_info), 200, {'ContentType': 'application/json'}
     elif rj['action'] == 'get_comments':
-        return json.dumps(comment_db.comments), 200, {'ContentType': 'application/json'}
+        return (
+            json.dumps(comment_db.get_comments(rj['year'])),
+            200,
+            {'ContentType': 'application/json'}
+        )
 
     elif rj['action'] == 'new_comment':
         comment_db.new_comment(rj['comment'])

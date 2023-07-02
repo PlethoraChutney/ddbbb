@@ -1,9 +1,10 @@
 {
-    "year": 2023,
+    "year": "2023",
     "header_info": {
         "roman_numeral": "VIII",
         "arabic_numeral": "Eight",
-        "date": "July 1<sup>st</sup> 2023",
+        "date": "July 1",
+        "cardinal": "st",
         "time": "noon"
     },
     "rules": {

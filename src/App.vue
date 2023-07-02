@@ -1,13 +1,14 @@
 <template>
   <div id="page-header">
-    <h1 class="mondo">DDBBB VIII</h1>
+    <h1 class="mondo">DDBBB {{ yearInfo.header_info.roman_numeral }}</h1>
     <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Eight</p>
-    <h2>July 1<sup>st</sup> 2023</h2>
+    <h2>{{ yearInfo.header_info.date }}<sup>{{ yearInfo.header_info.cardinal }}</sup> {{ year }}</h2>
     <h2>Start at noon</h2>
   </div>
 
   <div id="map-holder" class="holder">
-    <iframe src="https://www.google.com/maps/d/embed?mid=114HEdL_AMAP_nVmxLutOJeHRCem5-vQ&ehbc=2E312F"
+    <iframe
+      :src="yearInfo.map_embed"
       width="100%"
       height="820"
     ></iframe>
@@ -17,23 +18,31 @@
     <h2 class="mondo">Rules</h2>
     <h3>You must:</h3>
     <ul>
-      <li>Have fun</li>
-      <li>Be nice</li>
-      <li>Invite anyone you think would enjoy this and get along</li>
+      <li
+      v-for="(rule, index) in yearInfo.rules.must"
+      :key="index"
+      >
+        {{ rule }}
+      </li>
     </ul>
     <hr>
     <h3>You are encouraged to:</h3>
     <ul>
-      <li>Ride a bike or scooter or other person-powered vehicle</li>
-      <li>Come to as many or few bars as you like (do not feel obligated to come to all of them!)</li>
-      <li>Drink whatever you want, alcohol or no</li>
+      <li
+      v-for="(rule, index) in yearInfo.rules.may"
+      :key="index"
+      >
+        {{ rule }}
+      </li>
     </ul>
     <hr>
     <h3>You may <em>not</em>:</h3>
     <ul>
-      <li>
-        Drink and drive. If you're planning on having more than one (1) beer,
-        do not drive. I don't care what you think your tolerance is.
+      <li
+      v-for="(rule, index) in yearInfo.rules.not"
+      :key="index"
+      >
+        {{ rule }}
       </li>
     </ul>
   </div>
@@ -43,10 +52,12 @@
     <NewComment
       @post-new-comment="newComment($event)"
       @is-admin="this.isAdmin = true"
+      :year="year"
     ></NewComment>
     <CommentBox
       v-for="(comment, index) in comments"
       :key="index"
+      :year="year"
       :comment="comment"
       :is-admin="isAdmin"
       @delete-comment="deleteComment($event)"
@@ -85,12 +96,30 @@ export default {
   components: {CommentBox, NewComment},
   data() {
     return {
+      year: '2023',
+      yearInfo: {
+        "year": null,
+        "header_info": {
+            "roman_numeral": null,
+            "arabic_numeral": null,
+            "date": null,
+            "time": null
+          },
+          "rules": {
+              "must": null,
+              "may": null,
+              "not": null
+          },
+          "map_embed": null
+      },
       comments: [],
       isAdmin: false,
       socket: io('/')
     }
   },
   created() {
+    this.setYear();
+    this.getYearInfo();
     this.getComments();
 
     this.socket.on('write_to_log', msg => {
@@ -99,10 +128,14 @@ export default {
 
     const vm = this;
     this.socket.on('new_comment', function(data) {
-      vm.comments.unshift(data);
+      if (data.year == vm.year) {
+        vm.comments.unshift(data.comment);
+      }
     })
     this.socket.on('delete_comment', function(data) {
-      vm.removeComment(data);
+      if (data.year == vm.year) {
+        vm.removeComment(data.comment);
+      }
     })
   },
   computed: {
@@ -113,20 +146,29 @@ export default {
     }
   },
   methods: {
+    setYear() {
+      this.year = window.location.href.match(/\/([0-9]{4})\//)[1];
+    },
+    getYearInfo() {
+      sendRequest({'action': 'get_year_info', 'year': this.year})
+        .then(request => request.json()).then(data => {
+          Object.assign(this.yearInfo, data);
+        })
+    },
     getComments() {
-      sendRequest({'action': 'get_comments'})
+      sendRequest({'action': 'get_comments', year: `${this.year}`})
         .then(request => request.json()).then(data => {
           this.comments = data.reverse();
         })
     },
     newComment(comment) {
-      this.socket.emit('newComment', comment);
+      this.socket.emit('newComment', {"year": this.year, "comment": comment});
     },
     deleteComment(comment) {
-      console.log(comment);
-      this.socket.emit('deleteComment', comment);
+      this.socket.emit('deleteComment', {"year": this.year, "comment": comment});
     },
     removeComment(comment) {
+      console.log(comment.timestamp);
       let indexToRemove = this.commentTS.indexOf(comment.timestamp);
       this.comments.splice(indexToRemove, 1);
     }
