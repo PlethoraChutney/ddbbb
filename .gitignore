@@ -26,3 +26,4 @@ pnpm-debug.log*
 # python crap
 __pycache__/
 db_management.py
+start_ddbbb.zsh

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO, emit, join_room
 import datetime
 import pytz
@@ -7,6 +7,7 @@ import os
 import sys
 import json
 import couchdb
+import re
 
 pacific = pytz.timezone('US/Pacific')
 ddbbb_year = os.environ['DDBBB_YEAR']
@@ -50,6 +51,11 @@ class Database:
         comment_list[ddbbb_year].remove(comment)
         self.comments_db['comments'] = comment_list
 
+    @property
+    def years_available(self) -> list:
+        keys = self.comments_db['comments'].keys()
+        return [key for key in keys if re.match(r'[0-9]{4}', key)]
+
 app = Flask(
     __name__,
     static_folder = os.path.join('dist', 'static'),
@@ -72,12 +78,23 @@ socketio = SocketIO(app)
 
 @app.route('/', methods = ['GET'])
 def index():
+    return redirect(url_for('year', year = ddbbb_year))
+
+@app.route('/<year>/', methods = ['GET'], endpoint = 'year')
+def year_index(year):
+    if not os.path.exists(os.path.join('ddbbb_years', f"{year}.json")):
+        return redirect(url_for('index'))
+    
     return render_template('index.html')
 
 @app.route('/api', methods = ['POST'])
 def api():
     rj = request.get_json()
-    if rj['action'] == 'get_comments':
+    if rj['action'] == 'get_year_info':
+        with open(os.path.join('ddbbb_years', f"{rj['year']}.json")) as f:
+            year_info = json.dumps(json.load(f))
+        return json.dumps(year_info), 200, {'ContentType': 'application/json'}
+    elif rj['action'] == 'get_comments':
         return json.dumps(comment_db.comments), 200, {'ContentType': 'application/json'}
 
     elif rj['action'] == 'new_comment':

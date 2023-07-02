@@ -1,0 +1,25 @@
+{
+    "year": 2022,
+    "header_info": {
+        "roman_numeral": "VII",
+        "arabic_numeral": "Seven",
+        "date": "July 2<sup>nd</sup> 2022",
+        "time": "noon"
+    },
+    "rules": {
+        "must": [
+            "Have fun",
+            "Be nice",
+            "Invite anyone you think would enjoy this and get along"
+        ],
+        "may": [
+            "Ride a bike or scooter or other person-powered vehicle",
+            "Come to as many or few bars as you like (do not feel obligated to come to all of them!)",
+            "Drink whatever you want, alcohol or no"
+        ],
+        "not": [
+            "Drink and drive. If you're planning on having more than one (1) beer, do not drive. I don't care what you think your tolerance is."
+        ]
+    },
+    "map_embed": "https://www.google.com/maps/d/u/0/embed?mid=1mq2U0ZQVUbaGDvMJXL1dT2Ay1FZrVYY&ehbc=2E312F"
+}
