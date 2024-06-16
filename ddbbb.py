@@ -32,7 +32,7 @@ class Database:
             comment_list = {ddbbb_year: []}
             self.comments_db['comments'] = comment_list
         elif ddbbb_year not in comment_list:
-            comment_list[ddbbb_year] = []
+            comment_list[ddbbb_year] = {}
             self.comments_db['comments'] = comment_list
 
         return comment_list
