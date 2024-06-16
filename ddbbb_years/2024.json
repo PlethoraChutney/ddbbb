@@ -1,0 +1,26 @@
+{
+    "year": "2024",
+    "header_info": {
+        "roman_numeral": "IX",
+        "arabic_numeral": "Nine",
+        "date": "July 6",
+        "cardinal": "th",
+        "time": "noon"
+    },
+    "rules": {
+        "must": [
+            "Have fun",
+            "Be nice",
+            "Invite anyone you think would enjoy this and get along"
+        ],
+        "may": [
+            "Ride a bike or scooter or other person-powered vehicle (e-assist is a-okay)",
+            "Come to as many or few bars as you like (do not feel obligated to come to all of them!)",
+            "Drink whatever you want, alcohol or no"
+        ],
+        "not": [
+            "Drink and drive. If you're planning on having more than one (1) beer, do not drive. I don't care what you think your tolerance is."
+        ]
+    },
+    "map_embed": "https://www.google.com/maps/d/embed?mid=1E-E5pSJJq2PTTqT4f4Jc87UgRtt6pdk&ehbc=2E312F"
+}

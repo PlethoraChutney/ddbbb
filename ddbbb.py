@@ -38,26 +38,27 @@ class Database:
         return comment_list
     
     def get_comments(self, year) -> list:
-        return self.comments[year]
+        return list(self.comments[year].values())
     
 
     def new_comment(self, data : dict) -> None:
         comment = data['comment']
         year = data['year']
+        timestamp = datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d, %H:%M:%S:%f")
 
-        comment['timestamp'] =  datetime.datetime.now(tz = pacific).strftime("%Y/%m/%d, %H:%M:%S:%f")
+        comment['timestamp'] = timestamp
         comment['parsed_timestamp'] = datetime.datetime.now(tz = pacific).strftime('%b %-d at %-I:%M %p')
         
         comment_list = self.comments_db['comments']
-        comment_list[year].append(comment)
+        comment_list[year][timestamp] = comment
         self.comments_db['comments'] = comment_list
 
     def delete_comment(self, data: dict) -> None:
-        comment = data['comment']
+        timestamp = data["comment"]['timestamp']
         year = data['year']
 
         comment_list = self.comments_db['comments']
-        comment_list[year].remove(comment)
+        del comment_list[year][timestamp]
         self.comments_db['comments'] = comment_list
 
     @property
@@ -123,14 +124,14 @@ def connect():
     emit('write_to_log', {'data': 'New user connected!'})
 
 @socketio.on('newComment')
-def new_comment(json):
-    comment_db.new_comment(json)
-    emit('new_comment', json, broadcast = True)
+def new_comment(comment_info):
+    comment_db.new_comment(comment_info)
+    emit('new_comment', comment_info, broadcast = True)
 
 @socketio.on('deleteComment')
-def delete_comment(json):
-    comment_db.delete_comment(json)
-    emit('delete_comment', json, broadcast = True)
+def delete_comment(comment_info):
+    comment_db.delete_comment(comment_info)
+    emit('delete_comment', comment_info, broadcast = True)
 
 if __name__ == '__main__':
     socketio.run(app, port=44444)

@@ -1,7 +1,7 @@
 <template>
   <div id="page-header">
     <h1 class="mondo">DDBBB {{ yearInfo.header_info.roman_numeral }}</h1>
-    <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike Eight</p>
+    <p style="margin-top: 0;">Drop-in Drop-out Birthday Beer Bike {{ yearInfo.header_info.arabic_numeral }}</p>
     <h2>{{ yearInfo.header_info.date }}<sup>{{ yearInfo.header_info.cardinal }}</sup> {{ year }}</h2>
     <h2>Start at noon</h2>
   </div>
